@@ -1,113 +1,103 @@
 # 🎬 Multi-Agent Movie Concept Generator (Google Cloud Technical Series 2025)
 
-🎯 Goal of the Project
+# 📌 Overview
+  This project is a Multi-Agent Workflow System built using the Google Agent Developer Kit (ADK).
+  It demonstrates how multiple LLM-powered agents can collaborate in a Sequential Pipeline to generate a complete movie pitch, including:
+  
+  Research about a historical figure
+  
+  A screenplay-style plot outline
+  
+  A titled movie pitch written to a file
+  
+  This is a real example of agent orchestration, workflow automation, and tool-augmented agents, which are becoming highly valuable in modern AI 
+    engineering.
 
-To demonstrate:
+#🚀 What This System Does (in simple words)
 
-Agent-to-agent communication
+  User says “hello”
+  
+  Root agent (Greeter) asks: “Tell me a historical figure for the movie.”
+  
+  When the user gives a name, the system starts a pipeline workflow:
 
-Workflow automation using SequentialAgent
+  1️⃣ Researcher Agent
 
-Using tools (functions) to store state, call APIs, and write files
+      Calls the Wikipedia tool (wiki_lookup)
 
-How multi-agent LLM systems can replicate production pipelines (e.g., writing, research, reviews)
+      Collects multiple research snippets
 
-📌 Overview
-This project is a Multi-Agent Workflow System built using the Google Agent Developer Kit (ADK).
-It demonstrates how multiple LLM-powered agents can collaborate in a Sequential Pipeline to generate a complete movie pitch, including:
+       Stores info in session.state["research"]
 
-Research about a historical figure
+  2️⃣ Screenwriter Agent
 
-A screenplay-style plot outline
+    Reads the research collected
+    
+    Creates a movie storyline
+    
+    Saves it inside state (session.state["drafts"])
 
-A titled movie pitch written to a file
+  3️⃣ File Writer Agent
 
-This is a real example of agent orchestration, workflow automation, and tool-augmented agents, which are becoming highly valuable in modern AI engineering.
-
-🚀 What This System Does (in simple words)
-
-User says “hello”
-
-Root agent (Greeter) asks: “Tell me a historical figure for the movie.”
-
-When the user gives a name, the system starts a pipeline workflow:
-
-1️⃣ Researcher Agent
-
-Calls the Wikipedia tool (wiki_lookup)
-
-Collects multiple research snippets
-
-Stores info in session.state["research"]
-
-2️⃣ Screenwriter Agent
-
-Reads the research collected
-
-Creates a movie storyline
-
-Saves it inside state (session.state["drafts"])
-
-3️⃣ File Writer Agent
-
-Titles the movie
-
-Writes the movie pitch to a .txt file
-
-Stores the output file path in state
-
-Finally, ADK Dev UI visualizes how agents and tools were executed during the workflow.
+    Titles the movie
+    
+    Writes the movie pitch to a .txt file
+    
+    Stores the output file path in state
+    
+    Finally, ADK Dev UI visualizes how agents and tools were executed during the workflow.
 
 
-🧱 Architecture
+ #🧱 Architecture
 
-1. Root Agent: greeter (LLM Agent)
+##1. Root Agent: greeter (LLM Agent)
 
-Welcomes user
+    Welcomes user
+    
+    Asks for a historical character
+    
+    Once user responds → triggers the workflow pipeline
+    
+    Runs until the workflow is complete
 
-Asks for a historical character
+##2. Workflow Agent: film_concept_team (SequentialAgent)
 
-Once user responds → triggers the workflow pipeline
+    A pipeline-style agent that forces strict execution order:
+    
+    researcher → screenwriter → file_writer
+    
+    
+    Unlike conversational agents, a SequentialAgent does not wait for the user.
+    It runs each sub-agent automatically, like a backend workflow.
 
-Runs until the workflow is complete
+##3. Sub-Agents
+##🕵️ Researcher (LLM Agent + Tools)
 
-2. Workflow Agent: film_concept_team (SequentialAgent)
+    Calls wiki_lookup to fetch summaries
+    
+    Appends results into state["research"]
+    
+    May call its tool multiple times if required
 
-A pipeline-style agent that forces strict execution order:
+##✍️ Screenwriter (LLM Agent)
+    
+    Reads accumulated research
+    
+    Creates a structured movie plot outline
+    
+    Stores drafts in session state
 
-researcher → screenwriter → file_writer
-
-
-Unlike conversational agents, a SequentialAgent does not wait for the user.
-It runs each sub-agent automatically, like a backend workflow.
-
-3. Sub-Agents
-🕵️ Researcher (LLM Agent + Tools)
-
-Calls wiki_lookup to fetch summaries
-
-Appends results into state["research"]
-
-May call its tool multiple times if required
-
-✍️ Screenwriter (LLM Agent)
-
-Reads accumulated research
-
-Creates a structured movie plot outline
-
-Stores drafts in session state
-
-📁 File Writer (LLM Agent + Tool)
-
-Generates a movie title
-
-Creates a .txt file inside ~/adk_multiagent_systems/movie_pitches
-
-Confirms file creation
+##📁 File Writer (LLM Agent + Tool)
+    
+    Generates a movie title
+    
+    Creates a .txt file inside ~/adk_multiagent_systems/movie_pitches
+    
+    Confirms file creation
 
 <img width="1561" height="565" alt="image" src="https://github.com/user-attachments/assets/736fef39-159c-4c79-a241-943739d3ba99" />
 
+#EVENT
 
 I recently attended the Google Cloud Technical Series 2025, where I had hands-on exposure to Google’s Agent Development Kit (ADK). The sessions were extremely valuable—especially the deep dive into multi-agent architectures, tool integrations, and workflow-driven LLM systems.
 
