@@ -103,6 +103,7 @@
 
 I recently attended the Google Cloud Technical Series 2025, where I had hands-on exposure to Google’s Agent Development Kit (ADK). The sessions were extremely valuable—especially the deep dive into multi-agent architectures, tool integrations, and workflow-driven LLM systems.
 
+
 As part of the lab, I built a multi-agent system using SequentialAgent, LLM sub-agents, and custom tools that collaborate to research a historical figure, generate a movie concept, and write the final pitch to disk. This project helped me understand real-world patterns like agent orchestration, memory/state management, and tool-powered autonomous workflows.
 
 <img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/1b21f105-d8d4-4517-b4df-36d64f7bc181" />
